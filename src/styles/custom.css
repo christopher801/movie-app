@@ -1,0 +1,110 @@
+/* Custom Styles for Movie App */
+
+/* Global Styles */
+.app {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Movie Card Styles */
+.movie-card {
+  transition: transform 0.3s ease;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+}
+
+.movie-card .card {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.movie-card .card-img-top {
+  border-radius: 10px 10px 0 0;
+}
+
+.movie-card .card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  min-height: 3rem;
+}
+
+/* Movie Details Styles */
+.movie-details img {
+  max-height: 600px;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .movie-details h1 {
+    font-size: 1.8rem;
+  }
+}
+
+/* Loading Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.movie-card .card {
+  animation: fadeIn 0.5s ease;
+}
+
+/* Custom Button Styles */
+.btn-outline-primary {
+  border-width: 2px;
+}
+
+/* Badge Customization */
+.badge {
+  font-size: 0.9em;
+  padding: 0.5em 0.8em;
+}
+
+/* Search Bar Focus */
+.form-control:focus {
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  border-color: #86b7fe;
+}
+
+/* Footer Styles */
+footer {
+  margin-top: auto;
+}
+
+/* Pagination Active State */
+.page-item.active .page-link {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+/* Rating Badge */
+.bg-warning {
+  color: #000 !important;
+}
+
+/* Navigation */
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.nav-link {
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  color: #fff !important;
+  opacity: 0.8;
+}
