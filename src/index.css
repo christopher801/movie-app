@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #080808;
+    color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: #0f0f0f; }
+  ::-webkit-scrollbar-thumb { background: #3a3a3a; border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: #555; }
+}
+
+@layer components {
+  .btn-brand {
+    @apply bg-brand-600 hover:bg-brand-500 text-white font-body font-semibold px-6 py-2.5 rounded-lg transition-all duration-200 active:scale-95;
+  }
+  .btn-ghost {
+    @apply border border-dark-500 hover:border-dark-300 text-dark-200 hover:text-white px-6 py-2.5 rounded-lg transition-all duration-200;
+  }
+  .card-movie {
+    @apply relative overflow-hidden rounded-xl cursor-pointer;
+  }
+  .skeleton {
+    @apply bg-dark-700 rounded animate-shimmer;
+    background: linear-gradient(90deg, #1e1e1e 25%, #2a2a2a 50%, #1e1e1e 75%);
+    background-size: 200% 100%;
+  }
+  .input-dark {
+    @apply bg-dark-700 border border-dark-500 focus:border-brand-500 focus:ring-1 focus:ring-brand-500/30 text-white placeholder-dark-300 rounded-lg px-4 py-2.5 outline-none transition-all duration-200 w-full;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium font-mono uppercase tracking-wide;
+  }
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, rgba(231,10,0,0.15) 0%, transparent 50%), 
+              linear-gradient(to bottom, transparent 60%, #080808 100%);
+}
+
+.row-scroll::-webkit-scrollbar { display: none; }
+.row-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+.noise::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  z-index: 9999;
+}
