@@ -12,6 +12,7 @@ import {
 import { useAuth } from '../../context/AuthContext'
 import { MdPlayArrow, MdAdd, MdCheck, MdCalendarToday, MdTimer } from 'react-icons/md'
 import toast from 'react-hot-toast'
+import { useSEO, seoContent } from '../../hooks/useSEO'
 
 export default function ContentDetail() {
   const { id }           = useParams()
@@ -25,6 +26,9 @@ export default function ContentDetail() {
   const [userRating, setUserRating] = useState(null)
   const [loading,    setLoading]    = useState(true)
   const [showTrailer, setShowTrailer] = useState(false)
+
+  // Dynamic SEO based on loaded content
+  useSEO(seoContent(content))
   const [wlLoading,  setWlLoading]  = useState(false)
   const [activeSeason, setActiveSeason] = useState(1)
 

@@ -3,10 +3,12 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import Navbar from '../../components/ui/Navbar'
 import MovieCard from '../../components/ui/MovieCard'
+import { useSEO, seoMovies } from '../../hooks/useSEO'
 import { getContents, getGenres } from '../../services/firestore'
 
 export default function MoviesPage() {
   const { t }             = useTranslation()
+  useSEO(seoMovies())
   const [movies,   setMovies]   = useState([])
   const [genres,   setGenres]   = useState([])
   const [selected, setSelected] = useState('')

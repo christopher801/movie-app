@@ -4,11 +4,13 @@ import { useTranslation } from 'react-i18next'
 import Navbar from '../../components/ui/Navbar'
 import HeroBanner from '../../components/ui/HeroBanner'
 import ContentRow from '../../components/ui/ContentRow'
+import { useSEO, seoHome } from '../../hooks/useSEO'
 import { getFeaturedContent, getContents, getContinueWatching } from '../../services/firestore'
 import { useAuth } from '../../context/AuthContext'
 
 export default function HomePage() {
   const { t }    = useTranslation()
+  useSEO(seoHome())
   const { user } = useAuth()
 
   const [featured,   setFeatured]   = useState([])

@@ -3,11 +3,13 @@ import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Navbar from '../../components/ui/Navbar'
 import MovieCard from '../../components/ui/MovieCard'
+import { useSEO, seoSearch } from '../../hooks/useSEO'
 import { searchContents } from '../../services/firestore'
 import { MdSearch } from 'react-icons/md'
 
 export default function SearchPage() {
   const { t }              = useTranslation()
+  useSEO(seoSearch(query))
   const [query,   setQuery]   = useState('')
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)

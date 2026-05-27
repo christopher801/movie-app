@@ -1,0 +1,21 @@
+# StreamVox — robots.txt
+# https://streamvox-one.vercel.app
+
+User-agent: *
+Allow: /
+Allow: /movies
+Allow: /series
+Allow: /search
+Allow: /content/
+
+# Block authenticated-only pages
+Disallow: /home
+Disallow: /watchlist
+Disallow: /profile
+Disallow: /watch/
+Disallow: /admin/
+
+# Block auth pages from indexing
+Disallow: /auth
+
+Sitemap: https://streamvox-one.vercel.app/sitemap.xml

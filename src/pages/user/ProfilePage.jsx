@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Navbar from '../../components/ui/Navbar'
 import { useAuth } from '../../context/AuthContext'
+import { useSEO, seoProfile } from '../../hooks/useSEO'
 import { updateUserProfile } from '../../services/firestore'
 import { updateProfile } from 'firebase/auth'
 import { auth } from '../../services/firebase'
@@ -11,6 +12,7 @@ import { MdPerson, MdEmail, MdEdit, MdSave } from 'react-icons/md'
 
 export default function ProfilePage() {
   const { t }                           = useTranslation()
+  useSEO(seoProfile())
   const { user, profile, refreshProfile } = useAuth()
   const [editing,   setEditing]   = useState(false)
   const [name,      setName]      = useState(profile?.displayName || '')

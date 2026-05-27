@@ -3,10 +3,12 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import Navbar from '../../components/ui/Navbar'
 import MovieCard from '../../components/ui/MovieCard'
+import { useSEO, seoSeries } from '../../hooks/useSEO'
 import { getContents } from '../../services/firestore'
 
 export default function SeriesPage() {
   const { t }            = useTranslation()
+  useSEO(seoSeries())
   const [series,  setSeries]  = useState([])
   const [loading, setLoading] = useState(true)
   const [lastDoc, setLastDoc] = useState(null)

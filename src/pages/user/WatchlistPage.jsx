@@ -3,12 +3,14 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import Navbar from '../../components/ui/Navbar'
 import MovieCard from '../../components/ui/MovieCard'
+import { useSEO, seoWatchlist } from '../../hooks/useSEO'
 import { getWatchlistContents } from '../../services/firestore'
 import { useAuth } from '../../context/AuthContext'
 import { MdBookmarkBorder } from 'react-icons/md'
 
 export default function WatchlistPage() {
   const { t }             = useTranslation()
+  useSEO(seoWatchlist())
   const { profile }       = useAuth()
   const [items,  setItems]  = useState([])
   const [loading, setLoading] = useState(true)
