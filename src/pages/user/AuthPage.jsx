@@ -1,38 +1,52 @@
 // src/pages/user/AuthPage.jsx
-import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate, useSearchParams, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import toast from 'react-hot-toast'
 import { MdEmail, MdLock, MdPerson } from 'react-icons/md'
 import { FcGoogle } from 'react-icons/fc'
 
-
 export default function AuthPage() {
   const { t }          = useTranslation()
   const { login, register, loginWithGoogle } = useAuth()
   const navigate       = useNavigate()
-  const [mode,    setMode]    = useState('login') // 'login' | 'register'
-  const [email,   setEmail]   = useState('')
+  const [params]       = useSearchParams()
+
+  // Leer ?mode=login o ?mode=register de la URL
+  const [mode,     setMode]     = useState(params.get('mode') === 'register' ? 'register' : 'login')
+  const [email,    setEmail]    = useState('')
   const [password, setPassword] = useState('')
-  const [name,    setName]    = useState('')
-  const [loading, setLoading] = useState(false)
+  const [name,     setName]     = useState('')
+  const [loading,  setLoading]  = useState(false)
+
+  // Sincronizar si el param cambia
+  useEffect(() => {
+    const m = params.get('mode')
+    if (m === 'register' || m === 'login') setMode(m)
+  }, [params])
 
   const handleSubmit = async () => {
-    if (!email || !password) return
+    if (!email || !password) { toast.error('Completa todos los campos'); return }
     setLoading(true)
     try {
       if (mode === 'login') {
         await login(email, password)
-        toast.success('Welcome back!')
+        toast.success('¡Bienvenido de vuelta!')
       } else {
-        if (!name) { toast.error('Name required'); setLoading(false); return }
+        if (!name) { toast.error('El nombre es requerido'); setLoading(false); return }
         await register(email, password, name)
-        toast.success('Account created!')
+        toast.success('¡Cuenta creada!')
       }
-      navigate('/')
+      navigate('/home')
     } catch (e) {
-      toast.error(e.message?.replace('Firebase: ', '').replace(' (auth/wrong-password).', '') || 'Error')
+      const msg = e.message
+        ?.replace('Firebase: ', '')
+        ?.replace(' (auth/wrong-password).', '')
+        ?.replace(' (auth/user-not-found).', '')
+        ?.replace(' (auth/email-already-in-use).', ' — ese email ya está registrado')
+        ?.replace(' (auth/weak-password).', ' — mínimo 6 caracteres')
+      toast.error(msg || 'Error de autenticación')
     }
     setLoading(false)
   }
@@ -41,26 +55,29 @@ export default function AuthPage() {
     setLoading(true)
     try {
       await loginWithGoogle()
-      toast.success('Welcome!')
-      navigate('/')
-    } catch (e) { toast.error(e.message || 'Error') }
+      toast.success('¡Bienvenido!')
+      navigate('/home')
+    } catch (e) { toast.error(e.message || 'Error con Google') }
     setLoading(false)
   }
 
   return (
     <div className="min-h-screen bg-dark-950 flex items-center justify-center px-4">
-      {/* Background effect */}
+      {/* Background glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-600/10 rounded-full blur-3xl" />
       </div>
 
       <div className="w-full max-w-md relative z-10">
-        {/* Logo */}
+        {/* Logo — clickable back to landing */}
         <div className="text-center mb-8">
-          <Link to="/">
+          <Link to="/" className="inline-block">
             <span className="font-display text-5xl text-brand-500 tracking-wide">STREAM</span>
             <span className="font-display text-5xl text-white tracking-wide">VOX</span>
           </Link>
+          <p className="text-dark-400 text-sm mt-2">
+            {mode === 'login' ? 'Inicia sesión para continuar' : 'Crea tu cuenta gratis'}
+          </p>
         </div>
 
         <div className="bg-dark-800/80 backdrop-blur border border-dark-600 rounded-2xl p-8">
@@ -123,9 +140,10 @@ export default function AuthPage() {
             disabled={loading}
             className="btn-brand w-full mt-6 flex items-center justify-center py-3 text-base disabled:opacity-60"
           >
-            {loading ? (
-              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-            ) : mode === 'login' ? t('signIn') : t('signUp')}
+            {loading
+              ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              : mode === 'login' ? t('signIn') : t('signUp')
+            }
           </button>
 
           <div className="flex items-center gap-3 my-5">
@@ -144,10 +162,20 @@ export default function AuthPage() {
 
           <p className="text-center text-sm text-dark-400 mt-6">
             {mode === 'login' ? t('noAccount') : t('haveAccount')}{' '}
-            <button onClick={() => setMode(mode === 'login' ? 'register' : 'login')} className="text-brand-400 hover:text-brand-300 font-medium">
+            <button
+              onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
+              className="text-brand-400 hover:text-brand-300 font-medium"
+            >
               {mode === 'login' ? t('signUp') : t('signIn')}
             </button>
           </p>
+
+          {/* Back to landing */}
+          <div className="text-center mt-4">
+            <Link to="/" className="text-xs text-dark-500 hover:text-dark-300 transition-colors">
+              ← Volver al inicio
+            </Link>
+          </div>
         </div>
       </div>
     </div>

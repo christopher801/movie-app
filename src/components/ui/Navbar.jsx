@@ -10,13 +10,14 @@ import {
 import i18n from '../../i18n'
 
 export default function Navbar() {
-  const { t }                 = useTranslation()
+  const { t }    = useTranslation()
   const { user, profile, logout, isAdmin } = useAuth()
-  const navigate              = useNavigate()
-  const [scrolled,  setScrolled]  = useState(false)
-  const [menuOpen,  setMenuOpen]  = useState(false)
-  const [dropOpen,  setDropOpen]  = useState(false)
-  const [lang,      setLang]      = useState(i18n.language)
+  const navigate = useNavigate()
+
+  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [dropOpen, setDropOpen] = useState(false)
+  const [lang,     setLang]     = useState(i18n.language)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -24,7 +25,11 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const handleLogout = async () => { await logout(); navigate('/') }
+  // Después de logout → landing page
+  const handleLogout = async () => {
+    await logout()
+    navigate('/')
+  }
 
   const toggleLang = () => {
     const next = lang === 'es' ? 'en' : 'es'
@@ -33,8 +38,8 @@ export default function Navbar() {
     setLang(next)
   }
 
-  const navLink = 'text-dark-200 hover:text-white text-sm font-medium transition-colors duration-200'
-  const activeNavLink = 'text-white font-semibold'
+  const nl  = 'text-dark-200 hover:text-white text-sm font-medium transition-colors duration-200'
+  const anl = 'text-white font-semibold'
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -43,20 +48,18 @@ export default function Navbar() {
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
 
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 shrink-0">
+          {/* Logo → /home (ya está autenticado si ve la navbar) */}
+          <Link to="/home" className="flex items-center gap-2 shrink-0">
             <span className="font-display text-3xl text-brand-500 tracking-wide leading-none">STREAM</span>
             <span className="font-display text-3xl text-white tracking-wide leading-none">VOX</span>
           </Link>
 
-          {/* Desktop links */}
+          {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-6">
-            <NavLink to="/"       className={({ isActive }) => isActive ? activeNavLink : navLink} end>{t('home')}</NavLink>
-            <NavLink to="/movies" className={({ isActive }) => isActive ? activeNavLink : navLink}>{t('movies')}</NavLink>
-            <NavLink to="/series" className={({ isActive }) => isActive ? activeNavLink : navLink}>{t('series')}</NavLink>
-            {user && (
-              <NavLink to="/watchlist" className={({ isActive }) => isActive ? activeNavLink : navLink}>{t('watchlist')}</NavLink>
-            )}
+            <NavLink to="/home"      className={({ isActive }) => isActive ? anl : nl} end>{t('home')}</NavLink>
+            <NavLink to="/movies"    className={({ isActive }) => isActive ? anl : nl}>{t('movies')}</NavLink>
+            <NavLink to="/series"    className={({ isActive }) => isActive ? anl : nl}>{t('series')}</NavLink>
+            <NavLink to="/watchlist" className={({ isActive }) => isActive ? anl : nl}>{t('watchlist')}</NavLink>
           </div>
 
           {/* Right side */}
@@ -73,7 +76,8 @@ export default function Navbar() {
               {lang.toUpperCase()}
             </button>
 
-            {user ? (
+            {/* User dropdown */}
+            {user && (
               <div className="relative">
                 <button
                   onClick={() => setDropOpen(p => !p)}
@@ -113,8 +117,6 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
-            ) : (
-              <Link to="/auth" className="btn-brand text-sm py-2 px-4">{t('signIn')}</Link>
             )}
 
             {/* Mobile hamburger */}
@@ -128,10 +130,10 @@ export default function Navbar() {
         {menuOpen && (
           <div className="md:hidden pb-4 border-t border-dark-700 mt-2 pt-4 animate-fade-in">
             <div className="flex flex-col gap-3">
-              <NavLink to="/"         onClick={() => setMenuOpen(false)} className={({ isActive }) => isActive ? activeNavLink : navLink} end>{t('home')}</NavLink>
-              <NavLink to="/movies"   onClick={() => setMenuOpen(false)} className={({ isActive }) => isActive ? activeNavLink : navLink}>{t('movies')}</NavLink>
-              <NavLink to="/series"   onClick={() => setMenuOpen(false)} className={({ isActive }) => isActive ? activeNavLink : navLink}>{t('series')}</NavLink>
-              {user && <NavLink to="/watchlist" onClick={() => setMenuOpen(false)} className={({ isActive }) => isActive ? activeNavLink : navLink}>{t('watchlist')}</NavLink>}
+              <NavLink to="/home"      onClick={() => setMenuOpen(false)} className={({ isActive }) => isActive ? anl : nl} end>{t('home')}</NavLink>
+              <NavLink to="/movies"    onClick={() => setMenuOpen(false)} className={({ isActive }) => isActive ? anl : nl}>{t('movies')}</NavLink>
+              <NavLink to="/series"    onClick={() => setMenuOpen(false)} className={({ isActive }) => isActive ? anl : nl}>{t('series')}</NavLink>
+              <NavLink to="/watchlist" onClick={() => setMenuOpen(false)} className={({ isActive }) => isActive ? anl : nl}>{t('watchlist')}</NavLink>
             </div>
           </div>
         )}
