@@ -2,38 +2,31 @@
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
+    screens: {
+      'xs':  '390px',   // ← iPhone SE / small Android
+      'sm':  '640px',
+      'md':  '768px',
+      'lg':  '1024px',
+      'xl':  '1280px',
+      '2xl': '1536px',
+    },
     extend: {
       colors: {
         brand: {
-          50:  '#fff1f0',
-          100: '#ffdedd',
-          200: '#ffbdbb',
-          300: '#ff8b87',
-          400: '#ff5046',
-          500: '#f72b20',
-          600: '#e41008',
-          700: '#c00c05',
-          800: '#9e0f09',
-          900: '#83140f',
-          950: '#460503',
+          50:  '#fff1f0', 100: '#ffdedd', 200: '#ffbdbb', 300: '#ff8b87',
+          400: '#ff5046', 500: '#f72b20', 600: '#e41008', 700: '#c00c05',
+          800: '#9e0f09', 900: '#83140f', 950: '#460503',
         },
         dark: {
-          950: '#080808',
-          900: '#0f0f0f',
-          800: '#161616',
-          700: '#1e1e1e',
-          600: '#2a2a2a',
-          500: '#3a3a3a',
-          400: '#555555',
-          300: '#888888',
-          200: '#aaaaaa',
-          100: '#cccccc',
+          950: '#080808', 900: '#0f0f0f', 800: '#161616', 700: '#1e1e1e',
+          600: '#2a2a2a', 500: '#3a3a3a', 400: '#555555', 300: '#888888',
+          200: '#aaaaaa', 100: '#cccccc',
         }
       },
       fontFamily: {
         display: ['"Bebas Neue"', 'sans-serif'],
-        body:    ['"DM Sans"', 'sans-serif'],
-        mono:    ['"DM Mono"', 'monospace'],
+        body:    ['"DM Sans"',    'sans-serif'],
+        mono:    ['"DM Mono"',    'monospace'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
